@@ -158,12 +158,15 @@ body {
   animation: fadeIn 140ms ease-out;
 }
 .message__bubble {
-  max-width: 80%;
-  padding: 10px 12px;
-  border-radius: 16px;
-  line-height: 1.35;
-  font-size: 16px; /* ≥16px для мобільної читабельності */
-  position: relative;
+  display: inline-block;
+  max-width: 80%;         /* обмежує ширину бульбашки */
+  white-space: normal;    /* дозволяє перенос, але не ламання кожного слова */
+  word-break: break-word; /* переносить довгі слова, але не кожну літеру */
+  overflow-wrap: anywhere;
+  font-size: 16px;
+  line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: 12px;
 }
 .message__meta {
   margin-top: 4px;
