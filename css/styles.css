@@ -151,22 +151,22 @@ body {
 
 /* Бульбашки */
 .message {
-  display: grid;
+  display: flex;
   grid-template-columns: auto 1fr;
   align-items: end;
   gap: 8px;
   animation: fadeIn 140ms ease-out;
 }
 .message__bubble {
-  display: inline-block;
-  max-width: 80%;         /* обмежує ширину бульбашки */
-  white-space: normal;    /* дозволяє перенос, але не ламання кожного слова */
-  word-break: break-word; /* переносить довгі слова, але не кожну літеру */
-  overflow-wrap: anywhere;
-  font-size: 16px;
-  line-height: 1.4;
-  padding: 8px 12px;
-  border-radius: 12px;
+  display: inline-block;         /* дозволяє бульбашці займати ширину по вмісту, а не на всю ширину контейнера */
+  max-width: 80%;                /* обмежує ширину, щоб довгі повідомлення не розтягувалися на весь екран */
+  white-space: normal;           /* дозволяє перенос рядків, але не забороняє пробіли */
+  word-break: break-word;        /* переносить довгі слова, які не вміщуються в рядок */
+  overflow-wrap: break-word; /* переносить лише там, де треба */
+  font-size: 16px;               /* розмір шрифту — оптимальний для читання на мобільному і десктопі */
+  line-height: 1.4;              /* висота рядка — забезпечує комфортне читання і не дає emoji “вилазити” */
+  padding: 8px 12px;             /* внутрішні відступи — створюють простір навколо тексту */
+  border-radius: 12px;           /* скруглення кутів — для м’якого, сучасного вигляду бульбашки */
 }
 .message__meta {
   margin-top: 4px;
