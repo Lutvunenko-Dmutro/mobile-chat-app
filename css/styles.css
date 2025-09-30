@@ -1,0 +1,221 @@
+/* styles.css */
+
+/* Системні теми + власний перемикач: theme-auto/ theme-light/ theme-dark */
+:root {
+  color-scheme: light dark;
+  --bg: #f7f7f9;
+  --fg: #1e1e24;
+  --muted: #666;
+  --bubble-user: #3b82f6;
+  --bubble-bot: #e5e7eb;
+  --bubble-user-fg: #fff;
+  --bubble-bot-fg: #111;
+  --border: #dfe3ea;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-auto :root {
+    --bg: #0f1220;
+    --fg: #e6e7ea;
+    --muted: #a1a1a8;
+    --bubble-user: #2563eb;
+    --bubble-bot: #1f2937;
+    --bubble-user-fg: #fff;
+    --bubble-bot-fg: #e6e7ea;
+    --border: #2b3240;
+  }
+}
+
+html.theme-light {
+  --bg: #f7f7f9;
+  --fg: #1e1e24;
+  --muted: #666;
+  --bubble-user: #3b82f6;
+  --bubble-bot: #e5e7eb;
+  --bubble-user-fg: #fff;
+  --bubble-bot-fg: #111;
+  --border: #dfe3ea;
+}
+
+html.theme-dark {
+  --bg: #0f1220;
+  --fg: #e6e7ea;
+  --muted: #a1a1a8;
+  --bubble-user: #2563eb;
+  --bubble-bot: #1f2937;
+  --bubble-user-fg: #fff;
+  --bubble-bot-fg: #e6e7ea;
+  --border: #2b3240;
+}
+
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* Центрування на десктопі, фулскрін на мобільному */
+.app {
+  min-height: 100svh;                  /* коректно з моб. клавіатурою */
+  height: -webkit-fill-available;      /* iOS Safari */
+  padding: calc(8px + var(--safe-top)) calc(8px + var(--safe-right)) calc(8px + var(--safe-bottom)) calc(8px + var(--safe-left));
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 8px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+@media (min-width: 720px) {
+  .app { max-width: 520px; }
+}
+
+.app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  padding: 8px 4px;
+}
+
+.header__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+/* Кнопки */
+.btn {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 8px 12px;
+  min-height: 44px;            /* торк‑френдлі */
+}
+.btn:focus-visible { outline: 2px solid #8ab4f8; outline-offset: 2px; }
+.btn--icon { min-width: 44px; }
+.btn--send {
+  background: var(--bubble-user);
+  color: var(--bubble-user-fg);
+  border-color: transparent;
+}
+
+/* Аватарки */
+.avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.avatar--sm { width: 24px; height: 24px; }
+
+/* Чат і стек повідомлень */
+.chat {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;   /* звичайний порядок */
+  justify-content: flex-end;/* вміст притиснутий донизу */
+  height: 100%;             /* контейнер займає всю висоту секції */
+  overflow-y: auto;         /* скрол для старих повідомлень */
+  padding: 12px;
+  gap: 10px;
+}
+
+/* Бульбашки */
+.message {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: 8px;
+  animation: fadeIn 140ms ease-out;
+}
+.message__bubble {
+  max-width: 80%;
+  padding: 10px 12px;
+  border-radius: 16px;
+  line-height: 1.35;
+  font-size: 16px; /* ≥16px для мобільної читабельності */
+  position: relative;
+}
+.message__meta {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Ролі та вирівнювання */
+.message--user {
+  justify-content: end;
+  grid-template-columns: 1fr auto;
+}
+.message--user .message__bubble {
+  background: var(--bubble-user);
+  color: var(--bubble-user-fg);
+  justify-self: end;
+  border-bottom-right-radius: 6px;
+}
+.message--bot .message__bubble {
+  background: var(--bubble-bot);
+  color: var(--bubble-bot-fg);
+  border-bottom-left-radius: 6px;
+}
+
+/* Ввід */
+.input {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
+  padding-bottom: var(--safe-bottom);
+}
+.input__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+input[type="text"] {
+  padding: 12px 14px;
+  min-height: 44px;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--fg);
+}
+input[type="text"]::placeholder { color: var(--muted); }
+input[type="text"]:focus-visible { outline: 2px solid #8ab4f8; outline-offset: 2px; }
+
+/* Анімації і доступність */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .message { animation: none; }
+}
+
+/* Екранні чуйні правки */
+@supports(height: 100svh) {
+  .app { min-height: 100svh; }
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute !important;
+  clip: rect(1px,1px,1px,1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important; width: 1px !important;
+  overflow: hidden !important;
+}
